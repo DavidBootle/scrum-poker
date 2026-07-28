@@ -23,12 +23,13 @@ const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 socket.on('connect_error', (error) => {
     console.error("Socket failed to connect!");
-    console.error(error);
 
     alert("Failed to connect to server. Please try again later.");
 
     // push to new page
     router.push('/');
+
+    throw error;
 })
 
 socket.on('room-update', (updatedRoom) => {
