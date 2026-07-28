@@ -1,0 +1,41 @@
+version: "3"
+name: scrumpoker
+services:
+  frontend:
+    container_name: ScrumPokerFrontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: davidbootle/scrumpokerfrontend
+    ports:
+      - "4173:4173"
+    environment:
+      DOCKER_CONTAINER: "true"
+    command: ["npm", "run", "preview"]
+    depends_on:
+      - backend
+  backend:
+    container_name: SaySomethingBackend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: davidbootle/scrumpokerbackend
+    ports:
+      - "3000:3000"
+    environment:
+      DOCKER_CONTAINER: "true"
+      NODE_ENV: development
+    command: ["npm", "run", "dev"]
+    depends_on:
+      redis:
+        condition: service_healthy
+  redis:
+    image: redis:latest
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+    ports:
+      - "6379:6379"
+    command: ["redis-server"]
