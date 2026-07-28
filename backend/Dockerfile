@@ -1,22 +1,35 @@
-# davidbootle/scrumpokerbackend
+# ---------- Build stage ----------
+FROM node:lts AS build
 
-# use base typescript node image
-FROM node:lts
-
-# Create the app directory and use it as the working directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-# copy package.json and package-lock.json
-# and run a clean install
+# Install all dependencies, including TypeScript
 COPY package*.json ./
 RUN npm ci
 
-# expose app port 3000
-EXPOSE 3000
-
-# copy app source code into container
+# Copy source and configuration
 COPY . .
 
-# start server
-CMD ["npm", "run", "dev"]
+# Compile TypeScript into JavaScript
+RUN npm run build
+
+
+# ---------- Production stage ----------
+FROM node:lts-slim AS production
+
+WORKDIR /usr/src/app
+
+ENV NODE_ENV=production
+
+# Install runtime dependencies only
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+
+# Copy compiled JavaScript from build stage
+COPY --from=build --chown=node:node /usr/src/app/dist ./dist
+
+USER node
+
+EXPOSE 3000
+
+CMD ["node", "dist/index.js"]
