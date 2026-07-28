@@ -43,6 +43,29 @@ io.on('connection', (socket: Socket) => {
             room = { id: roomId, revealed: false, users: {}}
         }
 
+        // verify no other users in the room have that name
+        for (let userSocket in room.users) {
+            let username = room.users[userSocket].name;
+            if (username === name) {
+                // this is invalid, two users cannot have the same name
+                // the default behavior is to replace the old user with the new one
+
+                // Remove the user from the users list
+                delete room.users[userSocket];
+
+                // remove tracking key for user-to-room mapping
+                await redis.del(`socket:${userSocket}`)
+
+                // Send a user-removed to the removed user
+                io.sockets.sockets.get(userSocket)?.emit('user-removed');
+
+                // disconnect their socket
+                io.sockets.sockets.get(userSocket)?.disconnect();
+
+                console.debug(`User ${userSocket} was removed from ${roomId} due to duplicate`);
+            }
+        }
+
         // Add user to room state
         room.users[socket.id] = { name, vote: null };
         await saveRoom(roomId, room);

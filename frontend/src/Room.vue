@@ -1,15 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { io } from 'socket.io-client';
 import router from './router';
 
 onMounted(() => {
     document.title = 'Scrum Poker Room'
+    if (!socket.connected) {
+        socket.connect();
+    }
 });
 
 const route = useRoute();
-const cardValues = ref(['?', '0', '1', '2', '3', '5', '8', '13', '21', '34', '🦀'])
+const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '🦀'])
 const currentVote = ref(null);
 const isRevealed = ref(false);
 const userList = ref([]);
@@ -17,6 +20,16 @@ const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
 const socket = io('http://localhost:3000');
+
+socket.on('connect_error', (error) => {
+    console.error("Socket failed to connect!");
+    console.error(error);
+
+    alert("Failed to connect to server. Please try again later.");
+
+    // push to new page
+    router.push('/');
+})
 
 socket.on('room-update', (updatedRoom) => {
     isRevealed.value = updatedRoom.revealed;
@@ -103,6 +116,12 @@ const resetRoom = () => {
     const roomId = route.params.id;
     socket.emit('reset', { roomId: roomId });
 }
+
+// When the app is dismounted, delete the socket
+onUnmounted(() => {
+    socket.disconnect();
+})
+
 </script>
 
 <template>
@@ -112,7 +131,6 @@ const resetRoom = () => {
             <!-- LOADING SPINNER -->
             <div v-if="loading" class="loading-container">
                  <div class="spinner"></div>
-                 <p>Joining Room...</p>
             </div>
 
             <!-- JOINING SCREEN -->
@@ -202,7 +220,7 @@ const resetRoom = () => {
     --secondary-accent: #a78bfa;
     --text-light: #f8fafc;
     --text-muted: #94a3b8;
-    --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --card-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.4);
 }
 body {
     margin: 0;
@@ -218,24 +236,24 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 1.25rem;
     box-sizing: border-box;
 }
 .card-container {
     background: var(--card-bg);
     backdrop-filter: blur(15px);
     border: 1px solid var(--border-color);
-    border-radius: 24px;
+    border-radius: 1.5rem;
     padding: 2.5rem;
     box-shadow: var(--card-shadow);
     width: 100%;
 }
 .card-container.is-joining {
-    max-width: 420px;
+    max-width: 26.25rem;
     text-align: center;
 }
 .card-container.is-playing {
-    max-width: 900px;
+    max-width: 67rem;
 }
 
 /* 3. Typography & Shared */
@@ -247,11 +265,11 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 
 /* 4. Action Buttons (Refactored) */
 .action-button {
-    padding: 12px 24px;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;
     border: none;
-    border-radius: 12px;
+    border-radius: 0.7rem;
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%; /* Default to full width */
@@ -259,11 +277,11 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 .action-button.primary {
     color: white;
     background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-accent-dark) 100%);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0.25rem 0.75rem rgba(99, 102, 241, 0.3);
 }
 .action-button.primary:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+    box-shadow: 0 0.375rem 1.25rem rgba(99, 102, 241, 0.45);
 }
 .action-button.primary:disabled {
     background: #334155;
@@ -290,19 +308,19 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 /* 5. Join Form */
 .form-group { margin-bottom: 1.5rem; }
 .name-input {
-    width: 100%; padding: 14px 18px; font-size: 1rem;
+    width: 100%; padding: 0.875rem 1.125rem; font-size: 1rem;
     background: #0f172a; border: 2px solid #334155;
-    border-radius: 12px; color: var(--text-light);
+    border-radius: 0.75rem; color: var(--text-light);
     box-sizing: border-box; transition: all 0.25s ease;
 }
 .name-input:focus {
     outline: none; border-color: var(--primary-accent);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.15);
 }
 
 /* 6. Player Hand & Vote Cards */
 .pointSelectionContainer {
-    display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+    display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;
 }
 .action-buttons-group {
     display: flex;
@@ -315,33 +333,33 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
     width: auto; /* Override full-width for grouped buttons */
 }
 .card {
-    aspect-ratio: 2.5 / 3.5; border-radius: 8px;
+    aspect-ratio: 2.5 / 3.5; border-radius: 0.5rem;
     display: flex; justify-content: center; align-items: center;
     font-size: 1.75rem; font-weight: bold; user-select: none;
     transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .vote-card {
-    width: 60px; border: 2px solid #4a5568;
+    width: 3.75rem; border: 2px solid #4a5568;
     background: #1e293b; cursor: pointer;
 }
-.vote-card:hover { transform: translateY(-8px); border-color: var(--primary-accent); }
+.vote-card:hover { transform: translateY(-0.5rem); border-color: var(--primary-accent); }
 .vote-card.selected {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-0.25rem) scale(1.05);
     background: var(--primary-accent); border-color: var(--primary-accent-dark);
-    color: white; box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+    color: white; box-shadow: 0 0.25rem 1rem rgba(99, 102, 241, 0.4);
 }
 
 /* 7. Player Table */
 .userCardsContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(5.625rem, 1fr));
     gap: 2rem 1rem;
     justify-content: center; /* This centers the items in the grid */
 }
 .userContainer { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
 .playerName { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); text-align: center; }
 .table-card {
-    width: 70px; background: #1e293b;
+    width: 4.375rem; background: #1e293b;
     border: 2px solid #334155; position: relative;
     transform-style: preserve-3d;
 }
@@ -350,7 +368,7 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 .card-face {
     position: absolute; width: 100%; height: 100%;
     backface-visibility: hidden; display: flex;
-    justify-content: center; align-items: center; border-radius: 6px;
+    justify-content: center; align-items: center; border-radius: 0.375rem;
 }
 .card-front { background: #312e81; transform: rotateY(180deg); }
 .card-back {
@@ -361,11 +379,11 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 /* 8. Loading Spinner */
 .loading-container {
     display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 1rem; min-height: 200px;
+    justify-content: center; gap: 1rem; min-height: 12.5rem;
     color: var(--text-muted);
 }
 .spinner {
-    width: 48px; height: 48px; border: 4px solid #334155;
+    width: 3rem; height: 3rem; border: 0.25rem solid #334155;
     border-bottom-color: var(--primary-accent); border-radius: 50%;
     display: inline-block; box-sizing: border-box;
     animation: rotation 1s linear infinite;
