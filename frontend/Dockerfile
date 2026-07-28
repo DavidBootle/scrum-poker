@@ -1,7 +1,7 @@
 # davidbootle/scrumpokerfrontend
 
 # use base node image
-FROM node
+FROM node:lts
 
 # Create app directory and use it as the working directory
 WORKDIR /usr/src/app
