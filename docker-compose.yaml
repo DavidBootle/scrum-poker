@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     image: davidbootle/scrumpokerfrontend
     ports:
-      - "4173:4173"
+      - "4172:4173"
     environment:
       DOCKER_CONTAINER: "true"
     command: ["npm", "run", "preview"]
