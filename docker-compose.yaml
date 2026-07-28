@@ -15,7 +15,7 @@ services:
     depends_on:
       - backend
   backend:
-    container_name: SaySomethingBackend
+    container_name: ScrumPokerBackend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -30,6 +30,7 @@ services:
       redis:
         condition: service_healthy
   redis:
+    container_name: ScrumPokerRedis
     image: redis:latest
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
