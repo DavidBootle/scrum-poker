@@ -204,4 +204,4 @@ app.get('/', (req: Request, res: Response) => {
     res.send('API IS ONLINE');
 });
 
-server.listen(3000, () => console.log('🚀 Scrum Poker TS backend running on port 3000'));
+server.listen(3000, '0.0.0.0', () => console.log('🚀 Scrum Poker TS backend running on port 3000'));
