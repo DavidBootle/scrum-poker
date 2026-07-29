@@ -24,8 +24,7 @@ services:
       - "3000:3000"
     environment:
       DOCKER_CONTAINER: "true"
-      NODE_ENV: development
-    command: ["npm", "run", "dev"]
+    command: ["node", "dist/server.js"]
     depends_on:
       redis:
         condition: service_healthy
