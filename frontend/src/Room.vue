@@ -19,7 +19,11 @@ const userList = ref([]);
 const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
-const socket = io(import.meta.env.VITE_SOCKET_URL);
+
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
+    path: import.meta.env.VITE_SOCKET_PATH,
+    transports: ["websocket", "polling"]
+});
 
 socket.on('connect_error', (error) => {
     console.error("Socket failed to connect!");
