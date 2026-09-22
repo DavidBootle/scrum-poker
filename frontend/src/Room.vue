@@ -16,9 +16,49 @@ const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '4
 const currentVote = ref(null);
 const isRevealed = ref(false);
 const userList = ref([]);
+const mostCommonVote = ref(null);
 const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
+
+/**
+ * Calculates the most common vote
+ * in order to display the concurrence glow
+ * @param users 
+ */
+const calculateMostCommonVote = (users) => {
+    const voteCounts = {};
+    // for each user, gather up the votes
+    for (const user of users) {
+        const vote = user.vote;
+        if (vote === null || vote === undefined) {
+            continue;
+        }
+        voteCounts[vote] = (voteCounts[vote] || 0) + 1;
+    }
+    
+    // if there are no votes, then
+    // there cannot be concurrence
+    if (Object.keys(voteCounts).length === 0) {
+        return null;
+    }
+    
+    // if there are at least two items, sort the
+    // votes by the number of occurences
+    const sortedItems = Object.entries(voteCounts)
+        .sort((a, b) => b[1] - a[1]);
+
+    console.log(sortedItems);
+    
+    // if there is a tie between the top two votes
+    // do not show concurrence glow
+    if (sortedItems.length >= 2 && sortedItems[0][1] === sortedItems[1][1]) {
+        return null;
+    }
+
+    // otherwise, return the most voted items
+    return sortedItems[0][0];
+};
 
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
     path: import.meta.env.VITE_SOCKET_PATH,
@@ -38,10 +78,14 @@ socket.on('connect_error', (error) => {
 
 socket.on('room-update', (updatedRoom) => {
     isRevealed.value = updatedRoom.revealed;
-    // CRITICAL FIX: Add socket ID for a unique :key in v-for
     userList.value = Object.entries(updatedRoom.users)
         .map(([id, user]) => ({...user, id}))
         .sort((a, b) => a.name.localeCompare(b.name) );
+
+    mostCommonVote.value = calculateMostCommonVote(userList.value);
+
+    console.log(mostCommonVote.value);
+
     loading.value = false;
 });
 
@@ -188,7 +232,7 @@ onUnmounted(() => {
                 
                 <div class="divider-line"></div>
                 
-                <!-- Other Players' Cards -->
+                <!-- Other Players Cards -->
                 <section class="player-table">
                     <div class="userCardsContainer">
                         <div
@@ -199,7 +243,11 @@ onUnmounted(() => {
                         >
                             <div 
                                 class="card table-card"
-                                :class="{ 'voted': user.vote !== null, 'revealed': isRevealed }"
+                                :class="{
+                                    'voted': user.vote !== null,
+                                    'revealed': isRevealed,
+                                    'concurrence': user.vote === mostCommonVote && mostCommonVote !== null
+                                }"
                             >
                                 <div class="card-face card-front">{{ isRevealed ? user.vote || '?' : '' }}</div>
                                 <div class="card-face card-back"></div>
@@ -370,6 +418,8 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 }
 .table-card.voted { border-color: var(--secondary-accent); }
 .table-card.revealed { transform: rotateY(180deg); }
+.table-card.concurrence.revealed { box-shadow: 0 0 20px rgba(249, 212, 2, 0.6) }
+
 .card-face {
     position: absolute; width: 100%; height: 100%;
     backface-visibility: hidden; display: flex;
