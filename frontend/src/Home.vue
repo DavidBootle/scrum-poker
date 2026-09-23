@@ -30,7 +30,7 @@ const newRoom = () => {
 <template>
     <div class="poker-container">
         <header class="poker-header">
-            <span class="logo-icon">♠️</span>
+            <span class="logo-icon" v-twemoji>♠️</span>
             <h1>Bootle's Scrum Poker</h1>
         </header>
 
@@ -81,6 +81,17 @@ body {
 .logo-icon {
     font-size: 2.5rem;
     filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+}
+.logo-icon > img {
+    filter:
+        brightness(0)
+        saturate(100%)
+        invert(34%)
+        sepia(70%)
+        saturate(567%)
+        hue-rotate(220deg)
+        brightness(100%)
+        contrast(109%);
 }
 
 h1 {

@@ -12,7 +12,7 @@ onMounted(() => {
 });
 
 const route = useRoute();
-const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '🦀'])
+const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '🦞'])
 const currentVote = ref(null);
 const isRevealed = ref(false);
 const userList = ref([]);
@@ -207,7 +207,7 @@ onUnmounted(() => {
             <!-- GAME SCREEN -->
             <div v-if="!loading && !joining" class="game-board">
                 <header class="poker-header centered">
-                    <span class="logo-icon">♠️</span>
+                    <span v-twemoji class="logo-icon">♠️</span>
                     <h1>Bootle's Scrum Poker</h1>
                 </header>
                 <!-- Current Player's Voting Hand -->
@@ -450,5 +450,11 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 
 .poker-header.centered {
     justify-content: center;
+}
+.emoji {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
 }
 </style>
