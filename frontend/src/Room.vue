@@ -285,7 +285,7 @@ onUnmounted(() => {
     box-sizing: border-box;
 }
 .card-container.is-joining {
-    max-width: 26.25rem;
+    max-width: 36rem;
     text-align: center;
 }
 .card-container.is-playing {
@@ -306,11 +306,11 @@ onUnmounted(() => {
 .action-button.primary {
     color: var(--text-on-accent);
     background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-accent-dark) 100%);
-    box-shadow: 0 0.25rem 0.75rem var(--accent-shadow);
+    box-shadow: 0 0.25rem 0.75rem rgba(from var(--shadow) r g b / 30%);
 }
 .action-button.primary:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 0.375rem 1.25rem var(--accent-shadow-hover);
+    box-shadow: 0 0.375rem 1.25rem rgba(from var(--shadow) r g b / 45%);
 }
 .action-button.primary:disabled {
     background: var(--surface-dark);
@@ -344,7 +344,7 @@ onUnmounted(() => {
 }
 .name-input:focus {
     outline: none; border-color: var(--primary-accent);
-    box-shadow: 0 0 0 0.25rem var(--accent-shadow-focus);
+    box-shadow: 0 0 0 0.25rem rgba(from var(--shadow) r g b / 15%);
 }
 
 /* 6. Player Hand & Vote Cards */
@@ -375,7 +375,7 @@ onUnmounted(() => {
 .vote-card.selected {
     transform: translateY(-0.25rem) scale(1.05);
     background: var(--primary-accent); border-color: var(--primary-accent-dark);
-    color: var(--text-on-accent); box-shadow: 0 0.25rem 1rem var(--accent-shadow-selected);
+    color: var(--text-on-accent); box-shadow: 0 0.25rem 1rem rgba(from var(--shadow) r g b / 40%);
 }
 
 /* 7. Player Table */
@@ -394,7 +394,7 @@ onUnmounted(() => {
 }
 .table-card.voted { border-color: var(--secondary-accent); }
 .table-card.revealed { transform: rotateY(180deg); }
-.table-card.concurrence.revealed { box-shadow: 0 0 20px var(--concurrence-glow) }
+.table-card.concurrence.revealed { box-shadow: 0 0 0.3rem 0.3rem rgba(from var(--concurrence-glow) r g b / 40%) }
 
 .card-face {
     position: absolute; width: 100%; height: 100%;
