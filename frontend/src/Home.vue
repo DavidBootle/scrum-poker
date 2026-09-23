@@ -2,6 +2,10 @@
 import { onMounted } from 'vue';
 import router from './router';
 
+// get theme
+var theme = localStorage.getItem('theme') || 'default';
+import(`@/css/themes/${theme}.css`);
+
 onMounted(() => {
     document.title = 'Scrum Poker';
 });
@@ -61,15 +65,15 @@ const newRoom = () => {
 
 /* 4. The Card (Lobby Screen) */
 .lobby-card {
-    background: rgba(30, 41, 59, 0.7);
+    background: var(--lobby-card-background);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(from white r g b / 8%);
     border-radius: 20px;
     padding: 2.5rem;
     width: 100%;
     max-width: 420px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-                0 0 50px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 20px 40px rgba(from black r g b / 40%),
+                0 0 50px rgba(from var(--primary) r g b / 10%);
     text-align: center;
     box-sizing: border-box;
     animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);

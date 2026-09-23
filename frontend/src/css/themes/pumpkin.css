@@ -1,0 +1,43 @@
+:root {
+    --background: #1a120d;
+    --lobby-card-background: #2f1f17;
+    --primary: #f97316;
+    --secondary: #fb923c;
+    --tertiary: #fdba74;
+    --text-primary: #fff7ed;
+    --text-muted: #f5c48d;
+    --concurrence-glow: #facc15;
+    --transparent: transparent;
+
+    --title-gradient: linear-gradient(135deg, #f59e0b 0%, #f97316 50%, #ea580c 100%);
+    --button-gradient: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
+    --logo-icon-filter: brightness(0) saturate(100%) invert(54%) sepia(94%) saturate(1407%) hue-rotate(12deg) brightness(101%) contrast(101%);
+
+    --bg-color: #1a120d;
+    --card-bg: rgba(47, 31, 23, 0.7);
+    --border-color: rgba(255, 237, 214, 0.12);
+
+    --primary-accent: #f97316;
+    --primary-accent-dark: #c2410c;
+    --secondary-accent: #fb923c;
+    --text-primary: #fff7ed;
+    --text-light: #fff7ed;
+    --text-muted: #f5c48d;
+    --text-on-accent: #fff7ed;
+    --surface-dark: #5b2d1a;
+    --surface-dark-hover: #7a3f22;
+    --surface-input: #1a120d;
+    --surface-card: #2f1f17;
+    --border-card: #9a5a36;
+    --border-input: #7c4d2e;
+    --text-disabled: #d9a57a;
+    --card-front-bg: #7c2d12;
+    --card-back-start: #f97316;
+    --card-back-end: #ea580c;
+    --concurrence-glow: #facc15;
+    --shadow: var(--primary);
+
+    --card-shadow-color: rgba(0, 0, 0, 0.45);
+    --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
+    --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23F8D9B5' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+}

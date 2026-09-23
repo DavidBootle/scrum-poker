@@ -4,7 +4,9 @@ import { useRoute } from 'vue-router';
 import { io } from 'socket.io-client';
 import router from './router';
 
-import '@/css/themes/default.css';
+// get theme
+var theme = localStorage.getItem('theme') || 'default';
+import(`@/css/themes/${theme}.css`);
 
 onMounted(() => {
     document.title = 'Scrum Poker Room'
@@ -433,22 +435,22 @@ onUnmounted(() => {
     width: 100%;
     padding: 14px 18px;
     font-size: 1rem;
-    background: #0f172a;
-    border: 2px solid #334155;
+    background: var(--background);
+    border: 2px solid var(--surface-dark);
     border-radius: 12px;
-    color: #f8fafc;
+    color: var(--text-light);
     box-sizing: border-box;
     transition: all 0.25s ease;
 }
 
 .name-input:focus {
     outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(from var(--primary) r g b / 15%);
 }
 
 .name-input::placeholder {
-    color: #64748b;
+    color: var(-text-disabled);
 }
 
 </style>
