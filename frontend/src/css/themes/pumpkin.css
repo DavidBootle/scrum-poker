@@ -1,5 +1,5 @@
 :root {
-    --background: #1a120d;
+    --background-color: #1a120d;
     --lobby-card-background: #2f1f17;
     --primary: #f97316;
     --secondary: #fb923c;
@@ -40,4 +40,5 @@
     --card-shadow-color: rgba(0, 0, 0, 0.45);
     --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
     --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23F8D9B5' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    --background: url('backgrounds/pumpkin_patch.jpg') center / cover no-repeat fixed;
 }

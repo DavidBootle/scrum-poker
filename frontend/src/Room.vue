@@ -30,6 +30,10 @@ const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
 
+window.customCards = (cards) => {
+    cardValues.value = cards
+}
+
 /**
  * Calculates the most common vote
  * in order to display the concurrence glow
@@ -333,7 +337,7 @@ onUnmounted(() => {
     background-color: var(--surface-dark-hover);
 }
 .action-button.tertiary {
-    background-color: var(--transparent);
+    background-color: var(--surface-dark);
     color: var(--text-muted);
 }
 .action-button.tertiary:hover {
@@ -440,7 +444,7 @@ onUnmounted(() => {
     width: 100%;
     padding: 14px 18px;
     font-size: 1rem;
-    background: var(--background);
+    background: var(--background-color);
     border: 2px solid var(--surface-dark);
     border-radius: 12px;
     color: var(--text-light);
