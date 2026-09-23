@@ -15,8 +15,13 @@ onMounted(() => {
     }
 });
 
+const themeEmojis = {
+    'default': '🦀',
+    'pumpkin': '🎃'
+}
+
 const route = useRoute();
-const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', '🦀'])
+const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', themeEmojis[theme] || '🤫'])
 const currentVote = ref(null);
 const isRevealed = ref(false);
 const userList = ref([]);
