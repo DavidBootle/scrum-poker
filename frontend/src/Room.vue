@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 import { io } from 'socket.io-client';
 import router from './router';
 
+import '@/css/themes/default.css';
+
 onMounted(() => {
     document.title = 'Scrum Poker Room'
     if (!socket.connected) {
@@ -262,36 +264,8 @@ onUnmounted(() => {
     </div>
 </template>
 
-<style>
-/* 1. Global Styles & Theme */
-:root {
-    --bg-color: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --border-color: rgba(255, 255, 255, 0.1);
-    --primary-accent: #6366f1;
-    --primary-accent-dark: #4f46e5;
-    --secondary-accent: #a78bfa;
-    --text-light: #f8fafc;
-    --text-muted: #94a3b8;
-    --card-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.4);
-}
-body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-color);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: var(--text-light);
-}
+<style scoped>
 
-/* 2. Main Layout & Centering */
-.app-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1.25rem;
-    box-sizing: border-box;
-}
 .card-container {
     background: var(--card-bg);
     backdrop-filter: blur(15px);
@@ -300,21 +274,23 @@ body {
     padding: 2.5rem;
     box-shadow: var(--card-shadow);
     width: 100%;
+    box-sizing: border-box;
+}
+.app-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
 }
 .card-container.is-joining {
     max-width: 26.25rem;
     text-align: center;
 }
 .card-container.is-playing {
-    max-width: 67rem;
+    max-width: 72rem;
 }
-
-/* 3. Typography & Shared */
-h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
-.subtitle, .section-title { font-size: 1rem; color: var(--text-muted); margin-bottom: 2rem; }
-.section-title { text-align: center; font-weight: 600; }
-.highlight { color: var(--primary-accent) !important; font-weight: 700 !important; }
-.divider-line { height: 1px; width: 100%; background: var(--border-color); margin: 2.5rem 0; }
 
 /* 4. Action Buttons (Refactored) */
 .action-button {
@@ -328,33 +304,33 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
     width: 100%; /* Default to full width */
 }
 .action-button.primary {
-    color: white;
+    color: var(--text-on-accent);
     background: linear-gradient(135deg, var(--primary-accent) 0%, var(--primary-accent-dark) 100%);
-    box-shadow: 0 0.25rem 0.75rem rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0.25rem 0.75rem var(--accent-shadow);
 }
 .action-button.primary:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 0.375rem 1.25rem rgba(99, 102, 241, 0.45);
+    box-shadow: 0 0.375rem 1.25rem var(--accent-shadow-hover);
 }
 .action-button.primary:disabled {
-    background: #334155;
-    color: #64748b;
+    background: var(--surface-dark);
+    color: var(--text-disabled);
     cursor: not-allowed;
     box-shadow: none;
 }
 .action-button.secondary {
-    background-color: #334155;
+    background-color: var(--surface-dark);
     color: var(--text-light);
 }
 .action-button.secondary:hover {
-    background-color: #475569;
+    background-color: var(--surface-dark-hover);
 }
 .action-button.tertiary {
-    background-color: transparent;
+    background-color: var(--transparent);
     color: var(--text-muted);
 }
 .action-button.tertiary:hover {
-    background-color: #334155;
+    background-color: var(--surface-dark);
     color: var(--text-light);
 }
 
@@ -362,13 +338,13 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 .form-group { margin-bottom: 1.5rem; }
 .name-input {
     width: 100%; padding: 0.875rem 1.125rem; font-size: 1rem;
-    background: #0f172a; border: 2px solid #334155;
+    background: var(--surface-input); border: 2px solid var(--border-input);
     border-radius: 0.75rem; color: var(--text-light);
     box-sizing: border-box; transition: all 0.25s ease;
 }
 .name-input:focus {
     outline: none; border-color: var(--primary-accent);
-    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 0.25rem var(--accent-shadow-focus);
 }
 
 /* 6. Player Hand & Vote Cards */
@@ -392,14 +368,14 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
     transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .vote-card {
-    width: 3.75rem; border: 2px solid #4a5568;
-    background: #1e293b; cursor: pointer;
+    width: 3.75rem; border: 2px solid var(--border-card);
+    background: var(--surface-card); cursor: pointer;
 }
 .vote-card:hover { transform: translateY(-0.5rem); border-color: var(--primary-accent); }
 .vote-card.selected {
     transform: translateY(-0.25rem) scale(1.05);
     background: var(--primary-accent); border-color: var(--primary-accent-dark);
-    color: white; box-shadow: 0 0.25rem 1rem rgba(99, 102, 241, 0.4);
+    color: var(--text-on-accent); box-shadow: 0 0.25rem 1rem var(--accent-shadow-selected);
 }
 
 /* 7. Player Table */
@@ -412,23 +388,23 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
 .userContainer { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
 .playerName { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); text-align: center; }
 .table-card {
-    width: 4.375rem; background: #1e293b;
-    border: 2px solid #334155; position: relative;
+    width: 4.375rem; background: var(--surface-card);
+    border: 2px solid var(--border-input); position: relative;
     transform-style: preserve-3d;
 }
 .table-card.voted { border-color: var(--secondary-accent); }
 .table-card.revealed { transform: rotateY(180deg); }
-.table-card.concurrence.revealed { box-shadow: 0 0 20px rgba(249, 212, 2, 0.6) }
+.table-card.concurrence.revealed { box-shadow: 0 0 20px var(--concurrence-glow) }
 
 .card-face {
     position: absolute; width: 100%; height: 100%;
     backface-visibility: hidden; display: flex;
     justify-content: center; align-items: center; border-radius: 0.375rem;
 }
-.card-front { background: #312e81; transform: rotateY(180deg); }
+.card-front { background: var(--card-front-bg); transform: rotateY(180deg); }
 .card-back {
-    background: linear-gradient(145deg, #4f46e5, #7c3aed);
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23DDDDDD44' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    background: linear-gradient(145deg, var(--card-back-start), var(--card-back-end));
+    background-image: var(--card-back-pattern);
 }
 
 /* 8. Loading Spinner */
@@ -438,7 +414,7 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
     color: var(--text-muted);
 }
 .spinner {
-    width: 3rem; height: 3rem; border: 0.25rem solid #334155;
+    width: 3rem; height: 3rem; border: 0.25rem solid var(--surface-dark);
     border-bottom-color: var(--primary-accent); border-radius: 50%;
     display: inline-block; box-sizing: border-box;
     animation: rotation 1s linear infinite;
@@ -448,13 +424,31 @@ h2 { font-size: 1.75rem; font-weight: 700; margin: 0 0 0.5rem 0; }
     100% { transform: rotate(360deg); }
 }
 
-.poker-header.centered {
-    justify-content: center;
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
 }
-.emoji {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.1em;
+
+.name-input {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1rem;
+    background: #0f172a;
+    border: 2px solid #334155;
+    border-radius: 12px;
+    color: #f8fafc;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
 }
+
+.name-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+}
+
+.name-input::placeholder {
+    color: #64748b;
+}
+
 </style>
