@@ -16,6 +16,7 @@ onMounted(() => {
 
 const themeEmojis = {
     'default': '🦀',
+    'alpine': '🥶',
     'pumpkin': '🎃'
 }
 
@@ -184,7 +185,7 @@ const setTheme = (newTheme) => {
     let newLinkElement = document.createElement('link');
     newLinkElement.id = 'themeLink';
     newLinkElement.rel = 'stylesheet';
-    newLinkElement.href = `/src/css/themes/${newTheme}.css`;
+    newLinkElement.href = `${import.meta.env.BASE_URL}themes/${newTheme}.css`;
     linkElement.replaceWith(newLinkElement);
 
     themeSelectMode.value = false;
@@ -299,12 +300,19 @@ onUnmounted(() => {
                     <div class="theme-option">
                         <div
                             class="full-size-theme-selector"
+                            style="background: var(--alpine-theme-image); border-color: var(--alpine-theme-border)"
+                            @click="setTheme('alpine')"
+                        ></div>
+                        Alpine
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
                             style="background: var(--pumpkin-theme-image); border-color: var(--pumpkin-theme-border)"
                             @click="setTheme('pumpkin')"
                         ></div>
                         Pumpkin
                     </div>
-                    
                 </div>
             </div>
         </main>
@@ -495,7 +503,7 @@ onUnmounted(() => {
 }
 
 .name-input::placeholder {
-    color: var(-text-disabled);
+    color: var(--text-disabled);
 }
 
 /** theme selector */

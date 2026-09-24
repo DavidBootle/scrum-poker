@@ -2,8 +2,11 @@
     --default-theme-border: #4a5568;
     --default-theme-image: linear-gradient(135deg, #6366f1, #c084fc);
 
+    --alpine-theme-border: #b9c7d8;
+    --alpine-theme-image: url('/backgrounds/alps.jpg') center / cover no-repeat;
+
     --pumpkin-theme-border: #9a5a36;
-    --pumpkin-theme-image: url('backgrounds/pumpkin_patch.jpg') center / cover no-repeat;
+    --pumpkin-theme-image: url('/backgrounds/pumpkin_patch.jpg') center / cover no-repeat;
 }
 
 body {

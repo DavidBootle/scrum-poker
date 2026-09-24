@@ -2,6 +2,7 @@
 
 let linkElement = document.getElementById('themeLink');
 var theme = localStorage.getItem('theme') || 'default';
+console.log(theme);
 
 if (!linkElement) {
   linkElement = document.createElement('link');
@@ -11,7 +12,7 @@ if (!linkElement) {
   // 3. Inject it into the <head> section of the page
   document.head.appendChild(linkElement);
 
-  linkElement.href = `src/css/themes/${theme}.css`;
+  linkElement.href = `${import.meta.env.BASE_URL}themes/${theme}.css`;
 }
 </script>
 
