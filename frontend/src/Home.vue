@@ -2,10 +2,6 @@
 import { onMounted } from 'vue';
 import router from './router';
 
-// get theme
-var theme = localStorage.getItem('theme') || 'default';
-import(`@/css/themes/${theme}.css`);
-
 onMounted(() => {
     document.title = 'Scrum Poker';
 });

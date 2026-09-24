@@ -6,7 +6,6 @@ import router from './router';
 
 // get theme
 var theme = localStorage.getItem('theme') || 'default';
-import(`@/css/themes/${theme}.css`);
 
 onMounted(() => {
     document.title = 'Scrum Poker Room'
@@ -29,6 +28,7 @@ const mostCommonVote = ref(null);
 const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
+const themeSelectMode = ref(false);
 
 window.customCards = (cards) => {
     cardValues.value = cards
@@ -60,8 +60,6 @@ const calculateMostCommonVote = (users) => {
     // votes by the number of occurences
     const sortedItems = Object.entries(voteCounts)
         .sort((a, b) => b[1] - a[1]);
-
-    console.log(sortedItems);
     
     // if there is a tie between the top two votes
     // do not show concurrence glow
@@ -96,8 +94,6 @@ socket.on('room-update', (updatedRoom) => {
         .sort((a, b) => a.name.localeCompare(b.name) );
 
     mostCommonVote.value = calculateMostCommonVote(userList.value);
-
-    console.log(mostCommonVote.value);
 
     loading.value = false;
 });
@@ -179,6 +175,21 @@ const resetRoom = () => {
     socket.emit('reset', { roomId: roomId });
 }
 
+const setTheme = (newTheme) => {
+    localStorage.setItem('theme', newTheme);
+    cardValues.value = ['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', themeEmojis[newTheme] || '🤫']
+
+    // update theme link
+    let linkElement = document.getElementById('themeLink');
+    let newLinkElement = document.createElement('link');
+    newLinkElement.id = 'themeLink';
+    newLinkElement.rel = 'stylesheet';
+    newLinkElement.href = `/src/css/themes/${newTheme}.css`;
+    linkElement.replaceWith(newLinkElement);
+
+    themeSelectMode.value = false;
+}
+
 // When the app is dismounted, delete the socket
 onUnmounted(() => {
     socket.disconnect();
@@ -218,7 +229,7 @@ onUnmounted(() => {
             </div>
 
             <!-- GAME SCREEN -->
-            <div v-if="!loading && !joining" class="game-board">
+            <div v-if="!loading && !joining && !themeSelectMode" class="game-board">
                 <header class="poker-header centered">
                     <span v-twemoji class="logo-icon">♠️</span>
                     <h1>Bootle's Scrum Poker</h1>
@@ -270,6 +281,31 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </section>
+                <div
+                    class="theme-selector"
+                    @click="themeSelectMode = true"
+                ></div>
+            </div>
+            <div v-if="!loading && !joining && themeSelectMode">
+                <div class="theme-selector-grid">
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background-image: var(--default-theme-image); border-color: var(--default-theme-border)"
+                            @click="setTheme('default')"
+                        ></div>
+                        Default
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background: var(--pumpkin-theme-image); border-color: var(--pumpkin-theme-border)"
+                            @click="setTheme('pumpkin')"
+                        ></div>
+                        Pumpkin
+                    </div>
+                    
+                </div>
             </div>
         </main>
     </div>
@@ -460,6 +496,50 @@ onUnmounted(() => {
 
 .name-input::placeholder {
     color: var(-text-disabled);
+}
+
+/** theme selector */
+.theme-selector {
+    --selector-size: 3rem;
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    width: var(--selector-size);
+    height: var(--selector-size);
+    border-radius: calc(var(--selector-size) / 4);
+    border: 0.125rem solid var(--border-card);
+    background: var(--theme-gradient);
+    transition: opacity 0.2s;
+}
+.theme-selector:hover .full-size-theme-selector:hover {
+    opacity: 0.8;
+}
+
+.theme-selector-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 5rem;
+    text-align: center;
+}
+
+.full-size-theme-selector {
+    --full-size-selector-size: 6rem;
+    width: var(--full-size-selector-size);
+    height: var(--full-size-selector-size);
+    border-radius: calc(var(--full-size-selector-size) / 4);
+    border-width: 0.125rem;
+    border-style: solid;
+    transition: opacity 0.2s;
 }
 
 </style>

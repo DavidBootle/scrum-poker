@@ -1,6 +1,6 @@
 :root {
     
-    --background: #0f172a;
+    --background-color: #0f172a;
     --lobby-card-background: #1e293b;
     --primary: #6366f1;
     --secondary: #a78bfa;
@@ -30,6 +30,7 @@
     --surface-input: #0f172a;
     --surface-card: #1e293b;
     --border-card: #4a5568;
+    --theme-border: var(--border-card);
     --border-input: #334155;
     --text-disabled: #64748b;
     --card-front-bg: #312e81;
@@ -42,4 +43,6 @@
     --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
     --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23DDDDDD44' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
     --background: var(--background-color);
+
+    --theme-gradient: linear-gradient(135deg, var(--primary), var(--tertiary));
 }
