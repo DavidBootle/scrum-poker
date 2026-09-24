@@ -1,0 +1,47 @@
+:root {
+    --background-color: #7a8ea3;
+    --lobby-card-background: #53697d;
+    --primary: #8aa3bc;
+    --secondary: #b9c7d8;
+    --tertiary: #dfeaf2;
+    --text-primary: #f3f8fc;
+    --text-muted: #d9e3ee;
+    --concurrence-glow: #facc15;
+    --transparent: transparent;
+
+    --title-gradient: linear-gradient(135deg, #edf4fb 0%, #bfd3e8 45%, #8aa3bc 100%);
+    --button-gradient: linear-gradient(135deg, #8aa3bc 0%, #58728c 100%);
+    --logo-icon-filter: brightness(0) saturate(100%) invert(69%) sepia(15%) saturate(546%) hue-rotate(175deg) brightness(103%) contrast(103%);
+
+    --bg-color: #71859a;
+    --card-bg: rgba(40, 55, 69, 0.7);
+    --border-color: rgba(224, 234, 244, 0.15);
+
+    --primary-accent: #8aa3bc;
+    --primary-accent-dark: #58728c;
+    --secondary-accent: #b9c7d8;
+    --text-primary: #f3f8fc;
+    --text-light: #edf4fb;
+    --text-muted: #d9e3ee;
+    --text-on-accent: #f7fbff;
+    --surface-dark: #4d6479;
+    --surface-dark-hover: #627d96;
+    --surface-input: #243847;
+    --surface-card: #53697d;
+    --border-card: #c6d3df;
+    --theme-border: var(--border-card);
+    --border-input: #7891ad;
+    --text-disabled: #bfd0dd;
+    --card-front-bg: #445d75;
+    --card-back-start: #8aa3bc;
+    --card-back-end: #607b93;
+    --concurrence-glow: #facc15;
+    --shadow: #b9c7d8;
+
+    --card-shadow-color: rgba(10, 22, 31, 0.42);
+    --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
+    --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23E7EEF6' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    --background: url('/backgrounds/alps.jpg') center / cover no-repeat;
+
+    --theme-gradient: url('/backgrounds/alps.jpg') center / cover no-repeat;
+}
