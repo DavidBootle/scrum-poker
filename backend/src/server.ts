@@ -4,7 +4,7 @@ import http from 'http';
 import { Server, Socket } from 'socket.io';
 import Redis from 'ioredis';
 
-import { Room, JoinPayload, VotePayload, RoomActionPayload } from './interfaces';
+import { Room, JoinPayload, VotePayload, RoomActionPayload, SetVisibilityPayload } from './interfaces';
 
 // APP CREATION
 const app = express();
@@ -35,7 +35,7 @@ io.on('connection', (socket: Socket) => {
     /**
      * A client is attempting to join a room
      */
-    socket.on('join-room', async ({ roomId, name }: JoinPayload) => {
+    socket.on('join-room', async ({ roomId, name, observer }: JoinPayload) => {
 
         // Get room data and create room if it doesn't already exist
         let room = await getRoom(roomId);
@@ -67,7 +67,7 @@ io.on('connection', (socket: Socket) => {
         }
 
         // Add user to room state
-        room.users[socket.id] = { name, vote: null };
+        room.users[socket.id] = { name, vote: null, observer: observer || false };
         await saveRoom(roomId, room);
 
         // Track socket to room id in redis
@@ -137,6 +137,24 @@ io.on('connection', (socket: Socket) => {
             socket.emit('invalid-command');
         }
     })
+
+    /**
+     * A client is attempting to change their observer state
+     */
+    socket.on('set-visibility', async ({ roomId, observer }: SetVisibilityPayload) => {
+        let room = await getRoom(roomId);
+        
+        // if the room exists and the user is in the room
+        if (room && room.users[socket.id]) {
+            room.users[socket.id].observer = observer;
+            await saveRoom(roomId, room);
+            io.to(roomId).emit('room-update', room);
+            console.debug(`User ${socket.id} set observer to ${observer} in room ${roomId}`);
+        } else {
+            console.warn(`User ${socket.id} attempted to set observer state in room ${roomId}, a room that doesn't exist or they are not in. This attempt was ignored.`);
+            socket.emit('invalid-command');
+        }
+    });
 
     /**
      * A client wishes to remove a user from a room.

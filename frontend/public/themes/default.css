@@ -7,7 +7,7 @@
     --tertiary: #c084fc;
     --text-primary: #ffffff;
     --text-muted: #94a3b8;
-    --concurrence-glow: #ffd700;
+    --concurrence-glow: var(--tertiary);
     --transparent: transparent;
 
     --title-gradient: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
@@ -36,7 +36,6 @@
     --card-front-bg: #312e81;
     --card-back-start: #4f46e5;
     --card-back-end: #7c3aed;
-    --concurrence-glow: #ffd700;
     --shadow: var(--primary);
     
     --card-shadow-color: rgba(from black r g b / 40%);

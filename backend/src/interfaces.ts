@@ -1,6 +1,7 @@
 export interface User {
     name: string,           // display name of the user
     vote: string | null,    // selected point amount (1, 2, 3, ? , or null)
+    observer: boolean,      // true = observer mode (hidden), false = participant mode (visible)
 }
 
 export interface Room {
@@ -16,6 +17,7 @@ export interface Room {
 export interface JoinPayload {
     roomId: string,
     name: string,
+    observer?: boolean,  // Optional: true = observer mode, false = participant mode (defaults to false)
 }
 
 export interface VotePayload {
@@ -25,4 +27,13 @@ export interface VotePayload {
 
 export interface RoomActionPayload {
     roomId: string
+}
+
+/**
+ * Represents a socket 'set-visibility' data field.
+ * A client trying to change their observer state.
+ */
+export interface SetVisibilityPayload {
+    roomId: string,
+    observer: boolean,  // true = observer mode (hidden), false = participant mode (visible)
 }

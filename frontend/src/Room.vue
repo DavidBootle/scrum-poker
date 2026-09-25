@@ -30,6 +30,7 @@ const joining = ref(true);
 const userName = ref('');
 const loading = ref(false);
 const themeSelectMode = ref(false);
+const isObserver = ref(false);
 
 window.customCards = (cards) => {
     cardValues.value = cards
@@ -72,6 +73,35 @@ const calculateMostCommonVote = (users) => {
     return sortedItems[0][0];
 };
 
+/**
+ * Load observer preference from localStorage
+ * Called during component initialization
+ */
+const loadObserverPreference = () => {
+    const saved = localStorage.getItem('observer');
+    if (saved !== null) {
+        isObserver.value = saved === 'true';
+    }
+};
+
+/**
+ * Toggle observer state
+ * Emits set-visibility event and stores preference locally
+ */
+const toggleVisibility = () => {
+    isObserver.value = !isObserver.value;
+    
+    // Persist to localStorage
+    localStorage.setItem('observer', isObserver.value.toString());
+    
+    // Notify server
+    const roomId = route.params.id;
+    socket.emit('set-visibility', {
+        roomId: roomId,
+        observer: isObserver.value
+    });
+};
+
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
     path: import.meta.env.VITE_SOCKET_PATH,
     transports: ["websocket", "polling"]
@@ -90,7 +120,10 @@ socket.on('connect_error', (error) => {
 
 socket.on('room-update', (updatedRoom) => {
     isRevealed.value = updatedRoom.revealed;
+    
+    // Filter out observers from display
     userList.value = Object.entries(updatedRoom.users)
+        .filter(([id, user]) => !user.observer)  // Filter observers (where observer === true)
         .map(([id, user]) => ({...user, id}))
         .sort((a, b) => a.name.localeCompare(b.name) );
 
@@ -134,16 +167,24 @@ socket.on('invalid-command', () => {
 });
 
 const joinRoom = () => {
+    loadObserverPreference();  // Load preference before joining
+    
     const roomId = route.params.id;
     socket.emit('join-room', {
         roomId: roomId,
-        name: userName.value
+        name: userName.value,
+        observer: isObserver.value  // Include observer state in join
     });
     joining.value = false;
     loading.value = true;
 };
 
 const selectVote = (value) => {
+    // Prevent voting when in observer mode
+    if (isObserver.value) {
+        return;
+    }
+    
     const newVote = currentVote.value === value ? null : value;
     currentVote.value = newVote;
     
@@ -231,31 +272,47 @@ onUnmounted(() => {
 
             <!-- GAME SCREEN -->
             <div v-if="!loading && !joining && !themeSelectMode" class="game-board">
+                <button 
+                    @click="toggleVisibility" 
+                    class="visibility-toggle"
+                    :title="isObserver ? 'Switch to Participant Mode' : 'Switch to Observer Mode'"
+                >
+                    <img v-if="!isObserver" src="/eye-regular-full.svg" alt="Visible" />
+                    <img v-else src="/eye-slash-regular-full.svg" alt="Hidden" />
+                </button>
                 <header class="poker-header centered">
                     <span v-twemoji class="logo-icon">♠️</span>
                     <h1>Bootle's Scrum Poker</h1>
                 </header>
                 <!-- Current Player's Voting Hand -->
                 <section class="player-hand">
-                     <h3 class="section-title">You are <span class="highlight">{{ userName }}</span></h3>
-                    <div class="pointSelectionContainer">
-                        <div
-                            v-for="value in cardValues"
-                            :key="value"
-                            class="card vote-card"
-                            :class="{ 'selected': value === currentVote }"
-                            @click="selectVote(value)"
-                        >
-                            {{ value }}
+                     <h3 class="section-title">
+                         <span>You are <span class="highlight">{{ userName }}</span></span>
+                     </h3>
+                    <!-- Only show voting deck when not in observer mode -->
+                    <div v-if="!isObserver" class="voting-deck">
+                        <div class="pointSelectionContainer">
+                            <div
+                                v-for="value in cardValues"
+                                :key="value"
+                                class="card vote-card"
+                                :class="{ 'selected': value === currentVote }"
+                                @click="selectVote(value)"
+                            >
+                                {{ value }}
+                            </div>
                         </div>
+                    </div>
+                    <div v-else class="observer-notice">
+                        <p>You are in observer mode. You can view the room but cannot vote.</p>
                     </div>
                      <div class="action-buttons-group">
                         <button @click="toggleReveal" class="action-button secondary">{{ isRevealed ? 'Hide Votes' : 'Reveal Votes' }}</button>
                         <button @click="resetRoom" class="action-button tertiary">Reset Room</button>
                     </div>
+
+                    <div v-if="!isObserver" class="divider-line"></div>
                 </section>
-                
-                <div class="divider-line"></div>
                 
                 <!-- Other Players Cards -->
                 <section class="player-table">
@@ -330,6 +387,7 @@ onUnmounted(() => {
     box-shadow: var(--card-shadow);
     width: 100%;
     box-sizing: border-box;
+    transition: height 0.5s;
 }
 .app-container {
     display: flex;
@@ -402,6 +460,13 @@ onUnmounted(() => {
     box-shadow: 0 0 0 0.25rem rgba(from var(--shadow) r g b / 15%);
 }
 
+.section-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 /* 6. Player Hand & Vote Cards */
 .pointSelectionContainer {
     display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;
@@ -439,6 +504,7 @@ onUnmounted(() => {
     grid-template-columns: repeat(auto-fill, minmax(5.625rem, 1fr));
     gap: 2rem 1rem;
     justify-content: center; /* This centers the items in the grid */
+    min-height: 129px;
 }
 .userContainer { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
 .playerName { font-size: 0.8rem; font-weight: 500; color: var(--text-muted); text-align: center; }
@@ -517,10 +583,15 @@ onUnmounted(() => {
     border-radius: calc(var(--selector-size) / 4);
     border: 0.125rem solid var(--border-card);
     background: var(--theme-gradient);
-    transition: opacity 0.2s;
+    transition: scale 0.2s;
+    z-index: 100;
 }
-.theme-selector:hover .full-size-theme-selector:hover {
-    opacity: 0.8;
+.theme-selector:hover {
+    scale: 1.05;
+}
+
+.full-size-theme-selector:hover {
+    scale: 1.05;
 }
 
 .theme-selector-grid {
@@ -547,7 +618,77 @@ onUnmounted(() => {
     border-radius: calc(var(--full-size-selector-size) / 4);
     border-width: 0.125rem;
     border-style: solid;
-    transition: opacity 0.2s;
+    transition: scale 0.2s;
+}
+
+/* Visibility Toggle Button */
+.visibility-toggle {
+    position: absolute;
+    left: 2rem;
+    top: 2rem;
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    background: var(--surface-dark);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0.5rem;
+    z-index: 100;
+}
+
+.visibility-toggle:hover {
+    background: var(--surface-dark-hover);
+    transform: scale(1.05);
+}
+
+.visibility-toggle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    opacity: 0.8;
+}
+
+.visibility-toggle:hover img {
+    opacity: 1;
+}
+
+.poker-header {
+    position: relative;
+    padding: 0 3rem;
+}
+
+/* Observer Mode Styles */
+.observer-badge {
+    display: inline-block;
+    margin-left: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-accent);
+    color: var(--text-on-accent);
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
+}
+
+.observer-notice {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.observer-notice p {
+    margin: 0;
+    font-size: 1.1rem;
 }
 
 </style>

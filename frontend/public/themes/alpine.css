@@ -6,7 +6,7 @@
     --tertiary: #dfeaf2;
     --text-primary: #f3f8fc;
     --text-muted: #d9e3ee;
-    --concurrence-glow: #facc15;
+    --concurrence-glow: #2bd3d3;
     --transparent: transparent;
 
     --title-gradient: linear-gradient(135deg, #edf4fb 0%, #bfd3e8 45%, #8aa3bc 100%);
@@ -35,12 +35,11 @@
     --card-front-bg: #445d75;
     --card-back-start: #8aa3bc;
     --card-back-end: #607b93;
-    --concurrence-glow: #facc15;
     --shadow: #b9c7d8;
 
     --card-shadow-color: rgba(10, 22, 31, 0.42);
     --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
-    --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23E7EEF6' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23DDDDDD44' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
     --background: url('/backgrounds/alps.jpg') center / cover no-repeat;
 
     --theme-gradient: url('/backgrounds/alps.jpg') center / cover no-repeat;
