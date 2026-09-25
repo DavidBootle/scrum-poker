@@ -24,7 +24,7 @@ async function getRoom(roomId: string): Promise<Room | null> {
  * Helper function to save room state to Redis with 24 hour expiration
  */
 async function saveRoom(roomId: string, roomData: Room): Promise<void> {
-    await redis.set(`room:${roomId}`, JSON.stringify(roomData), 'EX', 86400);
+    await redis.set(`room:${roomId}`, JSON.stringify(roomData), 'EX', 28800);
 }
 
 // IO CONNECTION
