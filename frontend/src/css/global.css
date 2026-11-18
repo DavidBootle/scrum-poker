@@ -80,7 +80,7 @@ h2 {
 .subtitle, .section-title { font-size: 1rem; color: var(--text-muted); margin-bottom: 2rem; }
 .section-title { text-align: center; font-weight: 600; }
 .highlight { color: var(--primary-accent) !important; font-weight: 700 !important; }
-.divider-line { height: 1px; width: 100%; background: var(--border-color); margin: 2.5rem 0; }
+.divider-line { height: 1px; width: 100%; background: var(--border-color); margin-bottom: 2.5rem; }
 
 .subtitle {
     font-size: 0.9rem;

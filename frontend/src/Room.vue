@@ -476,6 +476,7 @@ onUnmounted(() => {
     justify-content: center;
     gap: 1rem;
     margin-top: 2rem;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
 }
 .action-buttons-group > .action-button {
