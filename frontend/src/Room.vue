@@ -344,7 +344,10 @@ onUnmounted(() => {
                 <div
                     class="theme-selector"
                     @click="themeSelectMode = true"
-                ></div>
+                    title="Change Theme"
+                >
+                    <img src="/palette-solid-full.svg" alt="Change Theme" class="theme-icon" />
+                </div>
             </div>
             <div v-if="!loading && !joining && themeSelectMode">
                 <div class="theme-selector-grid">
@@ -354,7 +357,7 @@ onUnmounted(() => {
                             style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
                             @click="setTheme('default')"
                         ></div>
-                        Slate
+                        Default
                     </div>
                     <div class="theme-option">
                         <div
@@ -604,9 +607,22 @@ onUnmounted(() => {
     background: var(--theme-gradient);
     transition: scale 0.2s;
     z-index: 100;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
 }
 .theme-selector:hover {
     scale: 1.05;
+}
+
+.theme-icon {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(100%);
+    pointer-events: none;
 }
 
 .full-size-theme-selector:hover {
