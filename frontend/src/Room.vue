@@ -15,10 +15,10 @@ onMounted(() => {
 });
 
 const themeEmojis = {
-    'default': '🦀',
+    'default': '🎩',
+    'slop': '🦀',
     'alpine': '🥶',
-    'pumpkin': '🎃',
-    'slate': '🎩'
+    'pumpkin': '🎃'
 }
 
 const route = useRoute();
@@ -350,10 +350,18 @@ onUnmounted(() => {
                     <div class="theme-option">
                         <div
                             class="full-size-theme-selector"
-                            style="background-image: var(--default-theme-image); border-color: var(--default-theme-border)"
+                            style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
                             @click="setTheme('default')"
                         ></div>
-                        Default
+                        Slate
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background: var(--slop-theme-image); border-color: var(--slop-theme-border)"
+                            @click="setTheme('slop')"
+                        ></div>
+                        Slop
                     </div>
                     <div class="theme-option">
                         <div
@@ -370,14 +378,6 @@ onUnmounted(() => {
                             @click="setTheme('pumpkin')"
                         ></div>
                         Pumpkin
-                    </div>
-                    <div class="theme-option">
-                        <div
-                            class="full-size-theme-selector"
-                            style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
-                            @click="setTheme('slate')"
-                        ></div>
-                        Slate
                     </div>
                 </div>
             </div>
