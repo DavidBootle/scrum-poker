@@ -20,7 +20,7 @@ export function setTheme(newTheme) {
     // if stylesheet doesn't exist, append it
     // otherwise replace it
     if (!linkElement) {
-        document.head.appendChild(linkElement);
+        document.head.appendChild(newElementLink);
     } else {
         linkElement.replaceWith(newLinkElement);
     }
