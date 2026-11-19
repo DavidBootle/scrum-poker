@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { io } from 'socket.io-client';
 import router from './router';
+import { setTheme as utilSetTheme } from './utilites/dom_management.js';
 
 // get theme
 var theme = localStorage.getItem('theme') || 'default';
@@ -23,8 +24,10 @@ const themeEmojis = {
     'ben': '💥'
 }
 
+const CARDS = ['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞']
+
 const route = useRoute();
-const cardValues = ref(['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', themeEmojis[theme] || '🤫'])
+const cardValues = ref([...CARDS, themeEmojis[theme] || '🤫'])
 const currentVote = ref(null);
 const isRevealed = ref(false);
 const userList = ref([]);
@@ -221,17 +224,11 @@ const resetRoom = () => {
 }
 
 const setTheme = (newTheme) => {
-    localStorage.setItem('theme', newTheme);
-    cardValues.value = ['?', '0', '0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '∞', themeEmojis[newTheme] || '🤫']
+    utilSetTheme(newTheme, () => {
+        
+    });
 
-    // update theme link
-    let linkElement = document.getElementById('themeLink');
-    let newLinkElement = document.createElement('link');
-    newLinkElement.id = 'themeLink';
-    newLinkElement.rel = 'stylesheet';
-    newLinkElement.href = `${import.meta.env.BASE_URL}themes/${newTheme}.css`;
-    linkElement.replaceWith(newLinkElement);
-
+    cardValues.value = [...CARDS, themeEmojis[newTheme] || '🤫'];
     themeSelectMode.value = false;
 }
 
