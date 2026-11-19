@@ -1,0 +1,46 @@
+:root {
+    --background-color: #1a0505;
+    --lobby-card-background: #2d0a0a;
+    --primary: #d32f2f;
+    --secondary: #ff5722;
+    --tertiary: #ff8a65;
+    --text-primary: #fff5f5;
+    --text-muted: #ffccbc;
+    --concurrence-glow: #ffd700;
+    --transparent: transparent;
+
+    --title-gradient: linear-gradient(135deg, #ff6b6b 0%, #d32f2f 50%, #8b0000 100%);
+    --button-gradient: linear-gradient(135deg, #d32f2f 0%, #8b0000 100%);
+    --logo-icon-filter: brightness(0) saturate(100%) invert(27%) sepia(98%) saturate(2447%) hue-rotate(349deg) brightness(92%) contrast(90%);
+
+    --bg-color: #1a0505;
+    --card-bg: rgba(45, 10, 10, 0.85);
+    --border-color: rgba(255, 87, 34, 0.25);
+
+    --primary-accent: #d32f2f;
+    --primary-accent-dark: #8b0000;
+    --secondary-accent: #ff5722;
+    --text-primary: #fff5f5;
+    --text-light: #ffffff;
+    --text-muted: #ffccbc;
+    --text-on-accent: #ffffff;
+    --surface-dark: #4a1010;
+    --surface-dark-hover: #661818;
+    --surface-input: #1a0505;
+    --surface-card: #2d0a0a;
+    --border-card: #d32f2f;
+    --theme-border: var(--border-card);
+    --border-input: #8b0000;
+    --text-disabled: #9a6a6a;
+    --card-front-bg: #3d0000;
+    --card-back-start: #d32f2f;
+    --card-back-end: #8b0000;
+    --shadow: #ff5722;
+
+    --card-shadow-color: rgba(211, 47, 47, 0.6);
+    --card-shadow: 0 1.25rem 2.5rem var(--card-shadow-color);
+    --card-back-pattern: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='6' ry='6' stroke='%23FF572244' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+    --background: url('/backgrounds/ben.jpg') center / cover no-repeat;
+
+    --theme-gradient: url('/backgrounds/ben.jpg') center / cover no-repeat;
+}

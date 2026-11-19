@@ -18,7 +18,8 @@ const themeEmojis = {
     'default': '🎩',
     'slop': '🦀',
     'alpine': '🥶',
-    'pumpkin': '🎃'
+    'pumpkin': '🎃',
+    'ben': '💥'
 }
 
 const route = useRoute();
@@ -378,6 +379,14 @@ onUnmounted(() => {
                             @click="setTheme('pumpkin')"
                         ></div>
                         Pumpkin
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background: var(--ben-theme-image); border-color: var(--ben-theme-border)"
+                            @click="setTheme('ben')"
+                        ></div>
+                        Ben
                     </div>
                 </div>
             </div>

@@ -10,6 +10,9 @@
 
     --slate-theme-border: #68809E;
     --slate-theme-image: #68809E;
+
+    --ben-theme-border: #d32f2f;
+    --ben-theme-image: url('/backgrounds/ben.jpg') center / cover no-repeat;
 }
 
 body {
