@@ -17,7 +17,8 @@ onMounted(() => {
 const themeEmojis = {
     'default': '🦀',
     'alpine': '🥶',
-    'pumpkin': '🎃'
+    'pumpkin': '🎃',
+    'slate': '🎩'
 }
 
 const route = useRoute();
@@ -369,6 +370,14 @@ onUnmounted(() => {
                             @click="setTheme('pumpkin')"
                         ></div>
                         Pumpkin
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
+                            @click="setTheme('slate')"
+                        ></div>
+                        Slate
                     </div>
                 </div>
             </div>

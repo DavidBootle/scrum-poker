@@ -7,6 +7,9 @@
 
     --pumpkin-theme-border: #9a5a36;
     --pumpkin-theme-image: url('/backgrounds/pumpkin_patch.jpg') center / cover no-repeat;
+
+    --slate-theme-border: #68809E;
+    --slate-theme-image: #68809E;
 }
 
 body {
