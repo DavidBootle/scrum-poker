@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { io } from 'socket.io-client';
 import router from './router';
-import { setTheme as utilSetTheme } from './utilites/dom_management.js';
+import { setTheme as utilSetTheme } from './utilities';
 
 // get theme
 var theme = localStorage.getItem('theme') || 'default';
