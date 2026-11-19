@@ -13,7 +13,6 @@
     --button-gradient: linear-gradient(135deg, #d32f2f 0%, #8b0000 100%);
     --logo-icon-filter: brightness(0) saturate(100%) invert(27%) sepia(98%) saturate(2447%) hue-rotate(349deg) brightness(92%) contrast(90%);
 
-    --bg-color: #1a0505;
     --card-bg: rgba(45, 10, 10, 0.85);
     --border-color: rgba(255, 87, 34, 0.25);
 

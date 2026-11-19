@@ -1,5 +1,4 @@
 :root {
-    
     --background-color: #0f172a;
     --lobby-card-background: #1e293b;
     --primary: #6366f1;
@@ -14,7 +13,6 @@
     --button-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     --logo-icon-filter: brightness(0) saturate(100%) invert(34%) sepia(70%) saturate(567%) hue-rotate(220deg) brightness(100%) contrast(109%);
 
-    --bg-color: #0f172a;
     --card-bg: rgba(30, 41, 59, 0.7);
     --border-color: rgba(255, 255, 255, 0.1);
 

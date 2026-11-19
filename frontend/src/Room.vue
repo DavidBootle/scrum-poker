@@ -15,7 +15,8 @@ onMounted(() => {
 });
 
 const themeEmojis = {
-    'default': '🎩',
+    'default': '🦅',
+    'slate': '🎩',
     'slop': '🦀',
     'alpine': '🥶',
     'pumpkin': '🎃',
@@ -354,10 +355,18 @@ onUnmounted(() => {
                     <div class="theme-option">
                         <div
                             class="full-size-theme-selector"
-                            style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
+                            style="background: var(--default-theme-image); border-color: var(--default-theme-border)"
                             @click="setTheme('default')"
                         ></div>
                         Default
+                    </div>
+                    <div class="theme-option">
+                        <div
+                            class="full-size-theme-selector"
+                            style="background: var(--slate-theme-image); border-color: var(--slate-theme-border)"
+                            @click="setTheme('slate')"
+                        ></div>
+                        Slate
                     </div>
                     <div class="theme-option">
                         <div
@@ -576,7 +585,7 @@ onUnmounted(() => {
     width: 100%;
     padding: 14px 18px;
     font-size: 1rem;
-    background: var(--background-color);
+    background: var(--background);
     border: 2px solid var(--surface-dark);
     border-radius: 12px;
     color: var(--text-light);

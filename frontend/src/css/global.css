@@ -1,4 +1,7 @@
 :root {
+    --default-theme-border: #7D122E;
+    --default-theme-image: linear-gradient(135deg, #E0295A, #A1173C);
+
     --slop-theme-border: #4a5568;
     --slop-theme-image: linear-gradient(135deg, #6366f1, #c084fc);
 
